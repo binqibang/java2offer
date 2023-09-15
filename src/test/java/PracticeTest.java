@@ -140,4 +140,11 @@ class PracticeTest {
         TreeNode root = p.buildTree(pre, in);
         p.flatten(root);
     }
+
+    @Test
+    void bubbleSort() {
+        int[] nums = {1, 5, 3, 2, 7, 6};
+        p.bubbleSort(nums);
+        System.out.println(Arrays.toString(nums));
+    }
 }

@@ -489,4 +489,44 @@ public class Practice {
             prev = curr;
         }
     }
+
+
+    /**
+     * 冒泡排序递归
+     */
+    public void bubbleSort(int[] nums) {
+        bsort(nums, nums.length - 1);
+    }
+
+    private void bsort(int[] nums, int i) {
+        if (i <= 0) {
+            return;
+        }
+        boolean isSorted = true;
+        for (int j = 0; j < i; j++) {
+            if (nums[j] > nums[j + 1]) {
+                swap(nums, j, j + 1);
+                isSorted = false;
+            }
+        }
+        if (isSorted) {
+            return;
+        }
+        bsort(nums, i - 1);
+    }
+
+
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+
+    public void insertionSort(int[] nums) {
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = i; j > 0 && nums[j] < nums[j - 1]; j--) {
+                swap(nums, j, j - 1);
+            }
+        }
+    }
 }
