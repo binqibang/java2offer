@@ -147,4 +147,24 @@ class PracticeTest {
         p.bubbleSort(nums);
         System.out.println(Arrays.toString(nums));
     }
+
+    @Test
+    void insertionSort() {
+        int[] nums = {1, 5, 3, 2, 7, 6};
+        p.insertionSort(nums);
+        System.out.println(Arrays.toString(nums));
+    }
+
+    @Test
+    void multiply() {
+        String num1 = "8646616";
+        String num2 = "468446";
+        System.out.println(p.multiply(num1, num2));
+    }
+
+    @Test
+    void uniquePaths() {
+        int m = 7, n = 3;
+        System.out.println(p.uniquePaths(m, n));
+    }
 }

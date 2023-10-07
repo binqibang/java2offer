@@ -522,11 +522,65 @@ public class Practice {
         nums[j] = tmp;
     }
 
+
+    /**
+     * 直接插入排序
+     */
     public void insertionSort(int[] nums) {
         for (int i = 1; i < nums.length; i++) {
             for (int j = i; j > 0 && nums[j] < nums[j - 1]; j--) {
                 swap(nums, j, j - 1);
             }
         }
+    }
+
+    /**
+     * LeetCode #43
+     */
+    public String multiply(String num1, String num2) {
+        if ("0".equals(num1) || "0".equals(num2)) {
+            return "0";
+        }
+        int m = num1.length();
+        int n = num2.length();
+        int[] ans = new int[m + n];
+        for (int i = m - 1; i >= 0; i--) {
+            int val1 = num1.charAt(i) - '0';
+            for (int j = n - 1; j >= 0; j--) {
+                int val2 = num2.charAt(j) - '0';
+                ans[i + j + 1] += val1 * val2;
+            }
+        }
+        for (int i = m + n - 1; i > 0; i--) {
+            ans[i - 1] += ans[i] / 10;
+            ans[i] %= 10;
+        }
+        int idx = ans[0] == 0 ? 1 : 0;
+        StringBuilder sb = new StringBuilder();
+        while (idx < m + n) {
+            sb.append(ans[idx]);
+            idx++;
+        }
+        return sb.toString();
+    }
+
+
+    /**
+     * LeetCode #62
+     */
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            dp[i][0] = 1;
+        }
+        for (int j = 0; j < n; j++) {
+            dp[0][j] = 1;
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
     }
 }

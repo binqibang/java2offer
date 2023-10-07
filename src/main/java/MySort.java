@@ -60,6 +60,7 @@ public class MySort {
         }
     }
 
+
     public static void mergeSort(int[] nums) {
         int[] tmp = new int[nums.length];
         msort(nums, 0, nums.length - 1, tmp);
@@ -69,7 +70,7 @@ public class MySort {
         if (left >= right) {
             return;
         }
-        int mid = (left + right) / 2;
+        int mid = left + (right - left) / 2;
         msort(nums, left, mid, tmp);
         msort(nums, mid + 1, right, tmp);
         merge(nums, left, mid, right, tmp);
@@ -78,7 +79,7 @@ public class MySort {
     private static void merge(int[] nums, int left, int mid, int right, int[] tmp) {
         int i = left, j = mid + 1, k = left;
         while (i <= mid && j <= right) {
-            if (nums[i] < nums[j]) {
+            if (nums[i] <= nums[j]) {
                 tmp[k++] = nums[i++];
             } else {
                 tmp[k++] = nums[j++];
@@ -95,6 +96,39 @@ public class MySort {
         }
     }
 
+    public static void quickSort(int[] nums) {
+        qsort(nums, 0, nums.length - 1);
+    }
+
+    private static void qsort(int[] nums, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        int mid = partition(nums, left, right);
+        qsort(nums, left, mid - 1);
+        qsort(nums, mid + 1, right);
+    }
+
+    private static int partition(int[] nums, int left, int right) {
+        int randomIdx = left + (int) ((right - left + 1) * Math.random());
+        swap(nums, randomIdx, left);
+        int i = left, j = right;
+        int pivot = nums[left];
+        while (i < j) {
+            while (i < j && nums[j] >= pivot) {
+                j--;
+            }
+            while (i < j && nums[i] <= pivot) {
+                i++;
+            }
+            if (i < j) {
+                swap(nums, i, j);
+            }
+        }
+        swap(nums, left, i);
+        return i;
+    }
+
     public static void main(String[] args) {
         int[] nums = ArrayUtil.createIntArray(20, 100);
         System.out.println(Arrays.toString(nums));
@@ -102,6 +136,7 @@ public class MySort {
 //        bubbleSort(nums);
 //        insertionSort(nums);
         mergeSort(nums);
+//        quickSort(nums);
         System.out.println(Arrays.toString(nums));
     }
 
