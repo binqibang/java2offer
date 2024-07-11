@@ -1,3 +1,5 @@
+package algorithm;
+
 public class ListUtil {
     private static ListNode addFirst(ListNode head, int val) {
         ListNode curr = new ListNode(val);

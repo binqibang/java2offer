@@ -1,6 +1,8 @@
+package algorithm;
+
 import java.util.*;
 
-public class Practice {
+public class Hot100 {
 
     /**
      * LeetCode #1
@@ -582,5 +584,31 @@ public class Practice {
             }
         }
         return dp[m - 1][n - 1];
+    }
+
+
+    /**
+     * 大数除法，腾讯一面
+     */
+    public String divString(String dividend, int divisor) {
+        int n = dividend.length();
+        StringBuilder sb = new StringBuilder();
+        int reminder = 0;
+        for (int i = 0; i < n; i++) {
+            int val = dividend.charAt(i) - '0' + 10 * reminder;
+            int factor = val / divisor;
+            reminder = val % divisor;
+            sb.append(factor);
+        }
+        if (reminder == 0) {
+            sb.append(".00");
+        } else {
+            sb.append(String.format("%.2f", (double) reminder / divisor).substring(1));
+        }
+        int i = 0;
+        while (sb.charAt(i) == '0') {
+            sb.deleteCharAt(i);
+        }
+        return sb.toString();
     }
 }
