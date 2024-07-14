@@ -17,15 +17,21 @@ public class ListUtil {
     }
 
     public static void printList(ListNode head) {
+        String s = toString(head);
+        System.out.println(s);
+    }
+
+    public static String toString(ListNode head) {
         ListNode iter = head;
+        StringBuilder sb = new StringBuilder();
         while (iter != null) {
             if (iter.next != null) {
-                System.out.print(iter.val + " -> ");
+                sb.append(iter.val).append(" -> ");
             } else {
-                System.out.print(iter.val);
+                sb.append(iter.val);
             }
             iter = iter.next;
         }
-        System.out.println();
+        return sb.toString();
     }
 }
