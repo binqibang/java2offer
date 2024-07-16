@@ -3,7 +3,7 @@ package algorithm;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.*;
 
 
 class DailyTest {
@@ -55,5 +55,38 @@ class DailyTest {
         Assertions.assertEquals(algorithm.levelOrderBottom(root1),
                 algorithm.levelOrderBottom(root2));
         System.out.println(algorithm.levelOrderBottom(root1));
+    }
+
+    @Test
+    void accountsMerge() {
+        List<List<String>> accounts = Arrays.asList(
+                Arrays.asList("John","johnsmith@mail.com","john_newyork@mail.com"),
+                Arrays.asList("John","johnsmith@mail.com","john00@mail.com"),
+                Arrays.asList("Mary","mary@mail.com"),
+                Arrays.asList("John","johnnybravo@mail.com")
+        );
+        System.out.println(algorithm.accountsMerge(accounts));
+    }
+
+    @Test
+    void findIntersectionValues() {
+        int[] nums1 = {4,3,2,3,1}, nums2 = {2,2,5,2,3,6};
+        Assertions.assertArrayEquals(new int[]{3, 4},
+                algorithm.findIntersectionValues(nums1, nums2));
+    }
+
+    @Test
+    void numSimilarGroups() {
+        String[] strs1 = {"tars","rats","arts","star"};
+        Assertions.assertEquals(2, algorithm.numSimilarGroups(strs1));
+        String[] strs2 = {"omv","ovm"};
+        Assertions.assertEquals(1, algorithm.numSimilarGroups(strs2));
+    }
+
+    @Test
+    void isSimilar() {
+        String s1 = "tars", s2 = "rats", s3 = "star";
+        Assertions.assertTrue(algorithm.isSimilar(s1, s2));
+        Assertions.assertFalse(algorithm.isSimilar(s1, s3));
     }
 }
