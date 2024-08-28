@@ -5,7 +5,12 @@ import java.util.*;
 public class Hot100 {
 
     /**
-     * LeetCode #1
+     * LeetCode #1: 两数之和
+     * 给定一个整数数组nums和一个目标值target，请找出数组中和为目标值的两个数，并返回它们的数组索引
+     *
+     * @param nums   整数数组，包含需要查找的两个数
+     * @param target 目标值，两个数之和应等于该值
+     * @return 返回一个包含两个索引的整数数组，表示两个数在原数组中的位置
      */
     public int[] twoSum(int[] nums, int target) {
         int[] ans = new int[2];
@@ -20,10 +25,19 @@ public class Hot100 {
         return ans;
     }
 
+
     /**
-     * LeetCode #2
+     * LeetCode #2: 两数相加
+     * 给定两个非空链表，代表两个非负整数，数字以逆序方式存储
+     * 每个节点只包含一个数字，将两数相加，以同样的形式返回结果
+     *
+     * @param l1 第一个链表节点，代表第一个整数
+     * @param l2 第二个链表节点，代表第二个整数
+     * @return 返回一个新的链表节点，代表两个整数相加的结果
      */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        // 2 4 3
+        // 5 6 4
         if (l1 == null) {
             return l2;
         }
@@ -34,9 +48,9 @@ public class Hot100 {
         ListNode prev = dummy;
         int carry = 0;
         while (l1 != null || l2 != null) {
-            int val1 = l1 == null ? 0 : l1.val;
-            int val2 = l2 == null ? 0 : l2.val;
-            int sum = val1 + val2 + carry;
+            int v1 = l1 == null ? 0 : l1.val;
+            int v2 = l2 == null ? 0 : l2.val;
+            int sum = v1 + v2 + carry;
             ListNode curr = new ListNode(sum % 10);
             carry = sum / 10;
             prev.next = curr;
@@ -48,59 +62,79 @@ public class Hot100 {
                 l2 = l2.next;
             }
         }
-        if (carry != 0) {
-            prev.next = new ListNode(carry);
-        }
         return dummy.next;
     }
 
 
+    public ListNode reverse(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode prev = null, curr = head, next;
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+
+
     /**
-     * LeetCode #3
+     * LeetCode #3: 计算给定字符串中最长无重复字符的子串的长度
+     *
+     * @param s 输入的字符串
+     * @return 返回最长无重复字符子串的长度
      */
     public int lengthOfLongestSubstring(String s) {
-        Map<Character, Integer> map = new HashMap<>();
-        int left = 0;
         int ans = 0;
-        for (int right = 0; right < s.length(); right++) {
-            char c = s.charAt(right);
-            if (map.containsKey(c)) {
-                left = Math.max(left, map.get(c) + 1);
+        Map<Character, Integer> map = new HashMap<>();
+        int l = 0;
+        for (int r = 0; r < s.length(); r++) {
+            char ch = s.charAt(r);
+            if (map.containsKey(ch)) {
+                l = Math.max(map.get(ch) + 1, l);
             }
-            map.put(c, right);
-            ans = Math.max(ans, right - left + 1);
+            map.put(ch, r);
+            ans = Math.max(ans, r - l + 1);
         }
         return ans;
     }
 
 
     /**
-     * LeetCode #5
+     * LeetCode #3: 返回给定字符串中的最长回文子串。
+     *
+     * @param s 输入的字符串
+     * @return 最长回文子串
      */
     public String longestPalindromeSubstring(String s) {
         int n = s.length();
-        int maxLen = 0;
-        int maxStart = 0;
+        if (n == 1) {
+            return s;
+        }
+        int maxLen = 1, maxStart = 0;
         for (int i = 0; i < n; i++) {
-            int left = i - 1;
-            int right = i + 1;
+            char c = s.charAt(i);
             int currLen = 1;
-            while (left >= 0 && s.charAt(left) == s.charAt(i)) {
-                left--;
+            int l = i - 1, r = i + 1;
+            while (l >= 0 && s.charAt(l) == c) {
+                l--;
                 currLen++;
             }
-            while (right < n && s.charAt(right) == s.charAt(i)) {
-                right++;
+            while (r < n && s.charAt(r) == c) {
+                r++;
                 currLen++;
             }
-            while (left >= 0 && right < n && s.charAt(left) == s.charAt(right)) {
-                left--;
-                right++;
+            while (l >= 0 && r < n && s.charAt(l) == s.charAt(r)) {
+                l--;
+                r++;
                 currLen += 2;
             }
             if (currLen > maxLen) {
                 maxLen = currLen;
-                maxStart = left + 1;
+                maxStart = l + 1;
             }
         }
         return s.substring(maxStart, maxStart + maxLen);
@@ -108,12 +142,22 @@ public class Hot100 {
 
 
     /**
-     * LeetCode #15
+     * LeetCode #15: 三数之和
+     * 给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0
+     * 找出所有满足条件且不重复的三元组。
+     *
+     * @param nums 输入的整数数组
+     * @return 返回所有不重复的三元组
      */
     public List<List<Integer>> threeSum(int[] nums) {
+        // -1, 0, 1, 2, -1, -4
         int n = nums.length;
-        Arrays.sort(nums);
         List<List<Integer>> ans = new ArrayList<>();
+        if (n < 3) {
+            return ans;
+        }
+        Arrays.sort(nums);
+        // -4 -1 -1 0 1 2
         for (int i = 0; i < n; i++) {
             if (nums[i] > 0) {
                 break;
@@ -121,24 +165,23 @@ public class Hot100 {
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
-            int left = i + 1, right = n - 1;
-            while (left < right) {
-                int sum = nums[i] + nums[left] + nums[right];
-                if (sum == 0) {
-                    List<Integer> curr = List.of(nums[i], nums[left], nums[right]);
-                    ans.add(curr);
-                    while (left < right && nums[left] == nums[left + 1]) {
-                        left++;
+            int j = i + 1, k = n - 1;
+            while (j < k) {
+                if (nums[i] + nums[j] + nums[k] == 0) {
+                    List<Integer> list = List.of(nums[i], nums[j], nums[k]);
+                    ans.add(list);
+                    while (j < k && nums[j + 1] == nums[j]) {
+                        j++;
                     }
-                    while (left < right && nums[right] == nums[right - 1]) {
-                        right--;
+                    while (j < k && nums[k - 1] == nums[k]) {
+                        k--;
                     }
-                    left++;
-                    right--;
-                } else if (sum < 0) {
-                    left++;
+                    j++;
+                    k--;
+                } else if (nums[i] + nums[j] + nums[k] > 0) {
+                    k--;
                 } else {
-                    right--;
+                    j++;
                 }
             }
         }
@@ -336,7 +379,7 @@ public class Hot100 {
     public int[] searchRange(int[] nums, int target) {
         int l = binarySearch(nums, target, true);
         int r = binarySearch(nums, target, false);
-        return new int[] {l, r};
+        return new int[]{l, r};
     }
 
     private int binarySearch(int[] nums, int target, boolean isLeft) {
@@ -494,49 +537,6 @@ public class Hot100 {
 
 
     /**
-     * 冒泡排序递归
-     */
-    public void bubbleSort(int[] nums) {
-        bsort(nums, nums.length - 1);
-    }
-
-    private void bsort(int[] nums, int i) {
-        if (i <= 0) {
-            return;
-        }
-        boolean isSorted = true;
-        for (int j = 0; j < i; j++) {
-            if (nums[j] > nums[j + 1]) {
-                swap(nums, j, j + 1);
-                isSorted = false;
-            }
-        }
-        if (isSorted) {
-            return;
-        }
-        bsort(nums, i - 1);
-    }
-
-
-    private void swap(int[] nums, int i, int j) {
-        int tmp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = tmp;
-    }
-
-
-    /**
-     * 直接插入排序
-     */
-    public void insertionSort(int[] nums) {
-        for (int i = 1; i < nums.length; i++) {
-            for (int j = i; j > 0 && nums[j] < nums[j - 1]; j--) {
-                swap(nums, j, j - 1);
-            }
-        }
-    }
-
-    /**
      * LeetCode #43
      */
     public String multiply(String num1, String num2) {
@@ -611,4 +611,273 @@ public class Hot100 {
         }
         return sb.toString();
     }
+
+
+    /**
+     * LeetCode #150: 计算给定的逆波兰表达式（RPN）的值
+     * 逆波兰表达式中，每个操作数可以是单个数字，每个运算符包括加法、减法、乘法和除法
+     * 表达式中的元素顺序遵循逆波兰表达式的规则，即运算符位于其操作数之后
+     *
+     * @param tokens 一个字符串数组，表示逆波兰表达式的各个部分，包括操作数和运算符
+     * @return 表达式的计算结果作为整数返回
+     */
+    public int evalRPN(String[] tokens) {
+        Deque<Integer> numStack = new ArrayDeque<>();
+        for (String token : tokens) {
+            if (isNumber(token)) {
+                numStack.push(Integer.parseInt(token));
+            } else {
+                int a = numStack.pop();
+                int b = numStack.pop();
+                switch (token) {
+                    case "+":
+                        numStack.push(a + b);
+                        break;
+                    case "-":
+                        numStack.push(b - a);
+                        break;
+                    case "*":
+                        numStack.push(a * b);
+                        break;
+                    case "/":
+                        numStack.push(b / a);
+                        break;
+                    default:
+                }
+            }
+        }
+        return numStack.pop();
+    }
+
+    private boolean isNumber(String token) {
+        return token.length() != 1 || (token.charAt(0) != '+' &&
+                token.charAt(0) != '-' && token.charAt(0) != '*' && token.charAt(0) != '/');
+    }
+
+    /**
+     * LeetCode #227: 计算一个算术表达式的值。
+     * 仅支持加法、减法、乘法和除法，并且不考虑括号。
+     *
+     * @param s 表达式字符串，包括数字和运算符，不含括号。
+     * @return 表达式的计算结果。
+     */
+    public int calculate(String s) {
+        // 定义运算符的优先级，加减为1（低优先级），乘除为2（高优先级）
+        Map<Character, Integer> priority = Map.of(
+                '+', 1,
+                '-', 1,
+                '*', 2,
+                '/', 2
+        );
+        // 移除表达式中的空格以避免解析错误
+        s = s.replaceAll(" ", "");
+        int n = s.length();
+        Deque<Integer> nums = new ArrayDeque<>();
+        // 防止开头为负数
+        nums.push(0);
+        Deque<Character> ops = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
+            char ch = s.charAt(i);
+            if (ch == '(') {
+                ops.push(ch);
+            } else if (ch == ')') {
+                // 计算到最近一个左括号为止
+                while (!ops.isEmpty()) {
+                    char top = ops.peek();
+                    if (top != '(') {
+                        calc(nums, ops);
+                    } else {
+                        ops.pop();
+                        break;
+                    }
+                }
+            } else {
+                if (Character.isDigit(ch)) {
+                    // 构造完整的数字
+                    int num = 0;
+                    int j = i;
+                    while (j < n && Character.isDigit(s.charAt(j))) {
+                        num = num * 10 + s.charAt(j) - '0';
+                        j++;
+                    }
+                    nums.push(num);
+                    // 更新索引位置
+                    i = j - 1;
+                } else {
+                    // (- 转化为 (0-
+                    if (i > 0 && (s.charAt(i - 1) == '(' || s.charAt(i - 1) == '+'
+                            || s.charAt(i - 1) == '-' || s.charAt(i - 1) == '*')) {
+                        nums.push(0);
+                    }
+                    // 如果运算符栈不为空并且栈顶运算符的优先级大于等于当前运算符
+                    while (!ops.isEmpty() && ops.peek() != '(' && priority.get(ops.peek()) >= priority.get(ch)) {
+                        // 执行计算
+                        calc(nums, ops);
+                    }
+                    ops.push(ch);
+                }
+            }
+        }
+        // 处理剩余的运算符
+        while (!ops.isEmpty() && ops.peek() != '(') {
+            calc(nums, ops);
+        }
+        return nums.pop();
+    }
+
+
+    private void calc(Deque<Integer> nums, Deque<Character> ops) {
+        if (nums.size() < 2 || ops.isEmpty()) {
+            return;
+        }
+        int a = nums.pop();
+        int b = nums.pop();
+        char op = ops.pop();
+        int ans = 0;
+        switch (op) {
+            case '+':
+                ans = a + b;
+                break;
+            case '-':
+                ans = b - a;
+                break;
+            case '*':
+                ans = a * b;
+                break;
+            case '/':
+                ans = b / a;
+                break;
+            default:
+        }
+        nums.push(ans);
+    }
+
+
+    public int compare (String version1, String version2) {
+        String[] ss1 = version1.split("\\.");
+        String[] ss2 = version2.split("\\.");
+        int len1 = ss1.length, len2 = ss2.length;
+        for (int i = 0; i < len1 || i < len2; i++) {
+            int v1 = i < len1 ? Integer.parseInt(ss1[i]) : 0;
+            int v2 = i < len2 ? Integer.parseInt(ss2[i]) : 0;
+            if (v1 > v2) {
+                return 1;
+            } else if (v1 < v2) {
+                return -1;
+            }
+        }
+        return 0;
+    }
+
+
+
+    /**
+     * 定义一个LRU(Least Recently Used)缓存策略的类
+     */
+    static class MyLRUCache {
+        // 缓存容量和当前大小
+        private int capacity, size;
+        // 虚拟头结点和尾结点，便于操作双向链表
+        private DLinkedNode head, tail;
+        // 使用HashMap存储键值对，键为缓存键，值为双向链表节点
+        private Map<Integer, DLinkedNode> cache;
+
+        /**
+         * 构造函数，初始化LRU缓存
+         * @param capacity 缓存的容量
+         */
+        public MyLRUCache(int capacity) {
+            this.capacity = capacity;
+            size = 0;
+            cache = new HashMap<>();
+            head = new DLinkedNode();
+            tail = new DLinkedNode();
+            head.next = tail;
+            tail.prev = head;
+        }
+
+        /**
+         * 获取给定键对应的值如果键不存在，返回-1
+         * @param k 键
+         * @return 对应的值或-1（如果键不存在）
+         */
+        public int get(int k) {
+            DLinkedNode node = cache.get(k);
+            if (node == null) {
+                return -1;
+            }
+            // 将访问的节点移动到链表头部，以维护最近使用顺序
+            moveFirst(node);
+            return node.value;
+        }
+
+        /**
+         * 将给定节点移动到链表头部
+         * @param node 要移动的节点
+         */
+        private void moveFirst(DLinkedNode node) {
+            // 先从链表中移除节点，再将其添加到链表头部
+            remove(node);
+            addFirst(node);
+        }
+
+        /**
+         * 将节点添加到链表头部
+         * @param node 要添加的节点
+         */
+        private void addFirst(DLinkedNode node) {
+            node.next = head.next;
+            head.next.prev = node;
+            node.prev = head;
+            head.next = node;
+        }
+
+        /**
+         * 从链表中移除节点
+         * @param node 要移除的节点
+         */
+        private void remove(DLinkedNode node) {
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+        }
+
+        /**
+         * 设置或更新给定键的值如果键不存在，插入键值对；如果键存在，更新其值
+         * @param k 键
+         * @param v 值
+         */
+        public void set(int k, int v) {
+            DLinkedNode query = cache.get(k);
+            if (query == null) {
+                DLinkedNode node = new DLinkedNode(k, v);
+                cache.put(k, node);
+                addFirst(node);
+                size++;
+                // 如果超出容量，移除最久未使用的节点
+                if (size > capacity) {
+                    cache.remove(tail.prev.key);
+                    remove(tail.prev);
+                    size--;
+                }
+            } else {
+                query.value = v;
+                // 更新节点位置，移动到链表头部
+                moveFirst(query);
+            }
+        }
+    }
+
+    // 双向链表节点类
+    static class DLinkedNode {
+        int key, value;
+        DLinkedNode prev, next;
+
+        public DLinkedNode() {}
+
+        public DLinkedNode(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
 }
+

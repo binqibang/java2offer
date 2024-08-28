@@ -1,11 +1,12 @@
 package algorithm;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class Hot100Test {
 
@@ -21,8 +22,8 @@ class Hot100Test {
 
     @Test
     void addTwoNumbers() {
-        int[] v1 = new int[] {1, 3, 4};
-        int[] v2 = new int[] {8, 7};
+        int[] v1 = new int[]{1, 3, 4};
+        int[] v2 = new int[]{8, 7};
         ListNode l1 = ListUtil.createList(v1);
         ListNode l2 = ListUtil.createList(v2);
         ListUtil.printList(algorithm.addTwoNumbers(l1, l2));
@@ -36,7 +37,7 @@ class Hot100Test {
 
     @Test
     void longestPalindromeSubstring() {
-        String s = "a";
+        String s = "abb";
         System.out.println(algorithm.longestPalindromeSubstring(s));
     }
 
@@ -71,14 +72,14 @@ class Hot100Test {
     void isValid() {
         String s1 = "{}{}([])";
         String s2 = "{{]";
-        Assertions.assertTrue(algorithm.isValid(s1));
-        Assertions.assertFalse(algorithm.isValid(s2));
+        assertTrue(algorithm.isValid(s1));
+        assertFalse(algorithm.isValid(s2));
     }
 
     @Test
     void mergeTwoLists() {
-        int[] v1 = new int[] {1, 3, 4};
-        int[] v2 = new int[] {8, 7};
+        int[] v1 = new int[]{1, 3, 4};
+        int[] v2 = new int[]{8, 7};
         ListNode l1 = ListUtil.createList(v1);
         ListNode l2 = ListUtil.createList(v2);
         ListUtil.printList(algorithm.mergeTwoLists(l1, l2));
@@ -98,7 +99,7 @@ class Hot100Test {
         ListNode l1 = ListUtil.createList(v1);
         ListNode l2 = ListUtil.createList(v2);
         ListNode l3 = ListUtil.createList(v3);
-        ListNode[] lists = new ListNode[] {l1, l2, l3};
+        ListNode[] lists = new ListNode[]{l1, l2, l3};
         ListUtil.printList(algorithm.mergeKLists(lists));
     }
 
@@ -106,7 +107,7 @@ class Hot100Test {
     void search() {
         int[] nums = {3, 1};
         int target = 1;
-        Assertions.assertEquals(1, algorithm.search(nums, target));
+        assertEquals(1, algorithm.search(nums, target));
     }
 
     @Test
@@ -132,9 +133,9 @@ class Hot100Test {
         int[] pre = {3, 9, 20, 15, 7};
         int[] in = {9, 3, 15, 20, 7};
         TreeNode root = algorithm.buildTree(pre, in);
-        Assertions.assertEquals(3, root.val);
-        Assertions.assertEquals(9, root.left.val);
-        Assertions.assertEquals(15, root.right.left.val);
+        assertEquals(3, root.val);
+        assertEquals(9, root.left.val);
+        assertEquals(15, root.right.left.val);
     }
 
     @Test
@@ -143,20 +144,6 @@ class Hot100Test {
         int[] in = {9, 3, 15, 20, 7};
         TreeNode root = algorithm.buildTree(pre, in);
         algorithm.flatten(root);
-    }
-
-    @Test
-    void bubbleSort() {
-        int[] nums = {1, 5, 3, 2, 7, 6};
-        algorithm.bubbleSort(nums);
-        System.out.println(Arrays.toString(nums));
-    }
-
-    @Test
-    void insertionSort() {
-        int[] nums = {1, 5, 3, 2, 7, 6};
-        algorithm.insertionSort(nums);
-        System.out.println(Arrays.toString(nums));
     }
 
     @Test
@@ -180,5 +167,41 @@ class Hot100Test {
         BigDecimal bd2 = new BigDecimal(b);
         System.out.println(bd1.divide(bd2, 2, RoundingMode.HALF_UP));
         System.out.println(algorithm.divString(a, b));
+    }
+
+    @Test
+    void reverse() {
+        int[] vals = {1, 2, 3, 4, 5};
+        ListNode l = ListUtil.createList(vals);
+        ListNode r = algorithm.reverse(l);
+        ListUtil.printList(r);
+    }
+
+    @Test
+    void evalRPN() {
+        String[] tokens = {"2", "1", "+", "3", "*"};
+        System.out.println(algorithm.evalRPN(tokens));
+    }
+
+    @Test
+    void calculate() {
+        String s = "(38+2)*2/40";
+        System.out.println(algorithm.calculate(s));
+    }
+
+    @Test
+    void compare() {
+        String version1 = "1.1", version2 = "1.2";
+        System.out.println(algorithm.compare(version1, version2));
+    }
+
+    @Test
+    void testLRU() {
+        Hot100.MyLRUCache lruCache = new Hot100.MyLRUCache(2);
+        lruCache.set(1, 1);
+        lruCache.set(2, 2);
+        assertEquals(1, lruCache.get(1));
+        lruCache.set(3, 3);
+        assertEquals(-1, lruCache.get(2));
     }
 }

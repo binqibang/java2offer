@@ -48,8 +48,9 @@ public class Daily {
         return l - 1 < 0 || r + 1 >= n || nums[l - 1] < nums[r + 1];
     }
 
+
     /**
-     * LeetCode #165
+     * LeetCode #165 比较版本号
      * @date 2024/7/11
      */
     public int compareVersion(String version1, String version2) {
@@ -74,7 +75,7 @@ public class Daily {
 
 
     /**
-     * LeetCode #165
+     * LeetCode #2974 最小数字游戏
      * @date 2024/7/12
      */
     public int[] numberGame(int[] nums) {
@@ -305,7 +306,7 @@ public class Daily {
 
 
     /**
-     * LeetCode #839 计算字符串数组中相似组的数量。
+     * LeetCode #839 计算字符串数组中相似组的数量
      * @date 2024/7/16
      *
      * @param strs 字符串数组，每个字符串代表一个元素
@@ -347,4 +348,73 @@ public class Daily {
         return diff == 0 ||
                 diff == 2 && s1.charAt(pos1) == s2.charAt(pos2) && s1.charAt(pos2) == s2.charAt(pos1);
     }
+
+
+    /**
+     * LeetCode #88 合并两个有序数组
+     * @date 2024/7/17
+     *
+     * @param nums1 第一个有序数组，合并后的元素将存储在这个数组中
+     * @param m nums1中原有的元素个数
+     * @param nums2 第二个有序数组，其元素将被合并到nums1中
+     * @param n nums2中原有的元素个数
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        // 复制nums1中的前m个元素到nums1Back，以保留原数组内容
+        int[] nums1Back = Arrays.copyOf(nums1, m);
+        int p1 = 0, p2 = 0, p = 0;
+        while (p1 < m && p2 < n) {
+            if (nums1Back[p1] < nums2[p2]) {
+                nums1[p++] = nums1Back[p1++];
+            } else {
+                nums1[p++] = nums2[p2++];
+            }
+        }
+        // 如果nums1Back中还有剩余元素，将其添加到nums1中
+        while (p1 < m) {
+            nums1[p++] = nums1Back[p1++];
+        }
+        // 如果nums2中还有剩余元素，将其添加到nums1中
+        while (p2 < n) {
+            nums1[p++] = nums2[p2++];
+        }
+    }
+
+
+    /**
+     * LeetCode #27 移除元素
+     * @date 2024/7/17
+     *
+     * @param nums 原始数组，将在原地进行修改
+     * @param val 需要从数组中移除的值
+     * @return 移除指定值后的新数组长度
+     */
+    public int removeElement(int[] nums, int val) {
+        int left = 0, right = 0;
+        while (right < nums.length) {
+            if (nums[right] != val) {
+                nums[left] = nums[right];
+                left++;
+            }
+            right++;
+        }
+        return left;
+    }
+
+
+    /**
+     * LeetCode #2740 找出分区值
+     *
+     * @param nums 输入的整数数组
+     * @return 返回数组分割后的最小差值
+     */
+    public int findValueOfPartition(int[] nums) {
+        Arrays.sort(nums);
+        int ans = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length - 1; i++) {
+            ans = Math.min(ans, Math.abs(nums[i] - nums[i + 1]));
+        }
+        return ans;
+    }
+
 }
