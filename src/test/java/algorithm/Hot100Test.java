@@ -1,207 +1,179 @@
 package algorithm;
 
-import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Arrays;
+import java.util.*;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Hot100Test {
 
-    Hot100 algorithm = new Hot100();
+public class Hot100Test {
+
+    private Hot100 hot100;
+
+    @BeforeEach
+    public void setup() {
+        hot100 = new Hot100();
+    }
 
 
     @Test
-    void twoSum() {
-        int[] nums = {1, 5, 3, 1};
-        int target = 2;
-        System.out.println(Arrays.toString(algorithm.twoSum(nums, target)));
+    public void testInorderTraversal_NormalTree_ReturnsInorderTraversal() {
+        TreeNode node = new TreeNode(1);
+        node.right = new TreeNode(2);
+        node.right.left = new TreeNode(3);
+        List<Integer> expected = Arrays.asList(1, 3, 2);
+        List<Integer> result = hot100.inorderTraversal(node);
+        assertEquals(expected, result);
+    }
+
+
+    @Test
+    public void testMaxDepth_NormalTree_ReturnsCorrectDepth() {
+        TreeNode node = new TreeNode(1);
+        node.left = new TreeNode(2);
+        assertEquals(2, hot100.maxDepth(node));
+    }
+
+
+    @Test
+    public void testInvertTree_NormalTree_ReturnsInvertedTree() {
+        TreeNode node = new TreeNode(4);
+        node.left = new TreeNode(2);
+        node.right = new TreeNode(7);
+        node.left.left = new TreeNode(1);
+        node.left.right = new TreeNode(3);
+        node.right.left = new TreeNode(6);
+        node.right.right = new TreeNode(9);
+
+        TreeNode inverted = hot100.invertTree(node);
+        assertEquals(4, inverted.val);
+        assertEquals(7, inverted.left.val);
+        assertEquals(2, inverted.right.val);
+        assertEquals(9, inverted.left.left.val);
+        assertEquals(6, inverted.left.right.val);
+        assertEquals(3, inverted.right.left.val);
+        assertEquals(1, inverted.right.right.val);
+    }
+
+
+    @Test
+    public void testIsSymmetric_NormalSymmetricTree_ReturnsTrue() {
+        TreeNode node = new TreeNode(1);
+        node.left = new TreeNode(2);
+        node.right = new TreeNode(2);
+        node.left.left = new TreeNode(3);
+        node.left.right = new TreeNode(4);
+        node.right.left = new TreeNode(4);
+        node.right.right = new TreeNode(3);
+        assertTrue(hot100.isSymmetric(node));
     }
 
     @Test
-    void addTwoNumbers() {
-        int[] v1 = new int[]{1, 3, 4};
-        int[] v2 = new int[]{8, 7};
-        ListNode l1 = ListUtil.createList(v1);
-        ListNode l2 = ListUtil.createList(v2);
-        ListUtil.printList(algorithm.addTwoNumbers(l1, l2));
+    public void testIsSymmetric_NormalNonSymmetricTree_ReturnsFalse() {
+        TreeNode node = new TreeNode(1);
+        node.left = new TreeNode(2);
+        node.right = new TreeNode(2);
+        node.left.right = new TreeNode(3);
+        node.right.right = new TreeNode(3);
+        assertFalse(hot100.isSymmetric(node));
     }
 
     @Test
-    void threeSum() {
-        int[] nums = {-1, 3, 2, -8, 6, 4, -4, 0};
-        System.out.println(algorithm.threeSum(nums));
+    public void testDiameterOfBinaryTree_NormalTree_ReturnsCorrectDiameter() {
+        TreeNode node = new TreeNode(1);
+        node.left = new TreeNode(2);
+        node.right = new TreeNode(3);
+        node.left.left = new TreeNode(4);
+        node.left.right = new TreeNode(5);
+        assertEquals(3, hot100.diameterOfBinaryTree(node));
+    }
+
+
+    @Test
+    public void testLevelOrder_NormalTree_ReturnsLevelOrderTraversal() {
+        TreeNode node = new TreeNode(3);
+        node.left = new TreeNode(9);
+        node.right = new TreeNode(20);
+        node.right.left = new TreeNode(15);
+        node.right.right = new TreeNode(7);
+        List<List<Integer>> expected = Arrays.asList(
+                List.of(3),
+                Arrays.asList(9, 20),
+                Arrays.asList(15, 7)
+        );
+        List<List<Integer>> result = hot100.levelOrder(node);
+        assertEquals(expected, result);
+    }
+
+
+    @Test
+    public void testSortedArrayToBST_NormalArray_ReturnsBalancedBST() {
+        TreeNode root = hot100.sortedArrayToBST(new int[]{-10, -3, 0, 5, 9});
+        assertEquals(0, root.val);
+        assertEquals(-10, root.left.val);
+        assertEquals(5, root.right.val);
+        assertEquals(-3, root.left.right.val);
+        assertEquals(9, root.right.right.val);
     }
 
     @Test
-    void longestPalindromeSubstring() {
-        String s = "abb";
-        System.out.println(algorithm.longestPalindromeSubstring(s));
+    public void testIsValidBST_EmptyTree_ReturnsTrue() {
+        assertTrue(hot100.isValidBST(null));
+    }
+
+
+    @Test
+    public void testIsValidBST_ComplexInvalidBST_ReturnsFalse() {
+        TreeNode root = new TreeNode(5);
+        root.left = new TreeNode(4);
+        root.right = new TreeNode(6);
+        root.right.left = new TreeNode(3);
+        root.right.right = new TreeNode(2);
+
+        assertFalse(hot100.isValidBST(root));
+    }
+
+
+    @Test
+    public void testKthSmallest_DeepTree_ReturnsKthSmallest() {
+        TreeNode node = new TreeNode(5);
+        node.left = new TreeNode(3);
+        node.right = new TreeNode(6);
+        node.left.left = new TreeNode(2);
+        node.left.right = new TreeNode(4);
+        node.left.left.left = new TreeNode(1);
+
+        assertEquals(3, hot100.kthSmallest(node, 3));
     }
 
     @Test
-    void lengthOfLongestSubstring() {
-        String s = "ilovefifa";
-        System.out.println(algorithm.lengthOfLongestSubstring(s));
+    void pathSum_TargetSumExists_ReturnsCorrectCount() {
+        TreeNode node = new TreeNode(10);
+        node.left = new TreeNode(5);
+        node.right = new TreeNode(-3);
+        node.left.left = new TreeNode(3);
+        node.left.right = new TreeNode(2);
+        node.right.right = new TreeNode(11);
+        node.left.left.left = new TreeNode(3);
+        node.left.left.right = new TreeNode(-2);
+        node.left.right.right = new TreeNode(1);
+
+        assertEquals(3, hot100.pathSum(node, 8));
     }
 
     @Test
-    void letterCombinations() {
-        String digits = "246";
-        System.out.println(algorithm.letterCombinations(digits));
+    void pathSum_TargetSumDoesNotExist_ReturnsZero() {
+        TreeNode node = new TreeNode(10);
+        node.left = new TreeNode(5);
+        node.right = new TreeNode(-3);
+        node.left.left = new TreeNode(3);
+        node.left.right = new TreeNode(2);
+        node.right.right = new TreeNode(11);
+        node.left.left.left = new TreeNode(3);
+        node.left.left.right = new TreeNode(-2);
+        node.left.right.right = new TreeNode(1);
+
+        assertEquals(0, hot100.pathSum(node, 0));
     }
 
-    @Test
-    void removeNthFromEnd() {
-        int[] nums = {1, 2, 3, 4};
-        ListNode head = ListUtil.createList(nums);
-        head = algorithm.removeNthFromEnd(head, 5);
-        ListUtil.printList(head);
-    }
-
-    @Test
-    void searchRange() {
-        int[] nums = {1, 2, 2, 3, 6, 7};
-        int target = 2;
-        System.out.println(Arrays.toString(algorithm.searchRange(nums, target)));
-    }
-
-    @Test
-    void isValid() {
-        String s1 = "{}{}([])";
-        String s2 = "{{]";
-        assertTrue(algorithm.isValid(s1));
-        assertFalse(algorithm.isValid(s2));
-    }
-
-    @Test
-    void mergeTwoLists() {
-        int[] v1 = new int[]{1, 3, 4};
-        int[] v2 = new int[]{8, 7};
-        ListNode l1 = ListUtil.createList(v1);
-        ListNode l2 = ListUtil.createList(v2);
-        ListUtil.printList(algorithm.mergeTwoLists(l1, l2));
-    }
-
-    @Test
-    void generateParenthesis() {
-        int n = 1;
-        System.out.println(algorithm.generateParenthesis(n));
-    }
-
-    @Test
-    void mergeKLists() {
-        int[] v1 = {1, 3, 4};
-        int[] v2 = {7, 8};
-        int[] v3 = {3, 5, 7, 9, 12};
-        ListNode l1 = ListUtil.createList(v1);
-        ListNode l2 = ListUtil.createList(v2);
-        ListNode l3 = ListUtil.createList(v3);
-        ListNode[] lists = new ListNode[]{l1, l2, l3};
-        ListUtil.printList(algorithm.mergeKLists(lists));
-    }
-
-    @Test
-    void search() {
-        int[] nums = {3, 1};
-        int target = 1;
-        assertEquals(1, algorithm.search(nums, target));
-    }
-
-    @Test
-    void combinationSum() {
-        int[] candidates = {2, 3, 6, 7};
-        int target = 7;
-        System.out.println(algorithm.combinationSum(candidates, target));
-    }
-
-    @Test
-    void permute() {
-        int[] nums = {1, 2, 3};
-        System.out.println(algorithm.permute(nums));
-    }
-
-    @Test
-    void combine() {
-        System.out.println(algorithm.combine(4, 2));
-    }
-
-    @Test
-    void buildTree() {
-        int[] pre = {3, 9, 20, 15, 7};
-        int[] in = {9, 3, 15, 20, 7};
-        TreeNode root = algorithm.buildTree(pre, in);
-        assertEquals(3, root.val);
-        assertEquals(9, root.left.val);
-        assertEquals(15, root.right.left.val);
-    }
-
-    @Test
-    void flatten() {
-        int[] pre = {3, 9, 20, 15, 7};
-        int[] in = {9, 3, 15, 20, 7};
-        TreeNode root = algorithm.buildTree(pre, in);
-        algorithm.flatten(root);
-    }
-
-    @Test
-    void multiply() {
-        String num1 = "25";
-        String num2 = "25";
-        System.out.println(algorithm.multiply(num1, num2));
-    }
-
-    @Test
-    void uniquePaths() {
-        int m = 7, n = 3;
-        System.out.println(algorithm.uniquePaths(m, n));
-    }
-
-    @Test
-    void divString() {
-        String a = "98289292988";
-        int b = 9;
-        BigDecimal bd1 = new BigDecimal(a);
-        BigDecimal bd2 = new BigDecimal(b);
-        System.out.println(bd1.divide(bd2, 2, RoundingMode.HALF_UP));
-        System.out.println(algorithm.divString(a, b));
-    }
-
-    @Test
-    void reverse() {
-        int[] vals = {1, 2, 3, 4, 5};
-        ListNode l = ListUtil.createList(vals);
-        ListNode r = algorithm.reverse(l);
-        ListUtil.printList(r);
-    }
-
-    @Test
-    void evalRPN() {
-        String[] tokens = {"2", "1", "+", "3", "*"};
-        System.out.println(algorithm.evalRPN(tokens));
-    }
-
-    @Test
-    void calculate() {
-        String s = "(38+2)*2/40";
-        System.out.println(algorithm.calculate(s));
-    }
-
-    @Test
-    void compare() {
-        String version1 = "1.1", version2 = "1.2";
-        System.out.println(algorithm.compare(version1, version2));
-    }
-
-    @Test
-    void testLRU() {
-        Hot100.MyLRUCache lruCache = new Hot100.MyLRUCache(2);
-        lruCache.set(1, 1);
-        lruCache.set(2, 2);
-        assertEquals(1, lruCache.get(1));
-        lruCache.set(3, 3);
-        assertEquals(-1, lruCache.get(2));
-    }
 }
