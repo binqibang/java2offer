@@ -83,7 +83,8 @@ public class Hot100 {
 
     /**
      * LeetCode #101
-     * 判断给定的二叉树是否为对称二叉树，对称二叉树定义：对于树中任意两个对称节点，它们的值相等，且它们的左子树和右子树也对称
+     * 判断给定的二叉树是否为对称二叉树
+     * 对称二叉树定义：对于树中任意两个对称节点，它们的值相等，且它们的左子树和右子树也对称
      *
      * @param root 二叉树的根节点
      * @return 如果二叉树是对称的，则返回true；否则返回false
@@ -214,8 +215,9 @@ public class Hot100 {
     /**
      * LeetCode #230
      * 二叉搜索树中第 K 小的元素
+     *
      * @param root 二叉搜索树的根节点
-     * @param k 第k小的元素的位置
+     * @param k    第k小的元素的位置
      * @return 第k小的元素的值
      */
     public int kthSmallest(TreeNode root, int k) {
@@ -225,7 +227,6 @@ public class Hot100 {
 
     private int kthSmallest;
     private int cnt = 1;
-
     private void dfs1(TreeNode root, int k) {
         if (root == null) {
             return;
@@ -238,10 +239,12 @@ public class Hot100 {
         dfs1(root.right, k);
     }
 
+
     /**
      * LeetCode 437
      * 路径总和III，计算二叉树中所有路径的和等于给定值的路径总数，可以不经过根节点
-     * @param root 二叉树的根节点
+     *
+     * @param root      二叉树的根节点
      * @param targetSum 目标和
      * @return 满足条件的路径总数
      */
@@ -255,7 +258,6 @@ public class Hot100 {
         return ans;
     }
 
-
     private int targetSum(TreeNode root, int target) {
         if (root == null) {
             return 0;
@@ -267,6 +269,82 @@ public class Hot100 {
         count += targetSum(root.left, target - root.val);
         count += targetSum(root.right, target - root.val);
         return count;
+    }
+
+
+    /**
+     * LeetCode #48
+     * 旋转图像，将图像顺时针旋转90度
+     *
+     * @param matrix 二维数组，表示图像
+     */
+    public void rotate(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        // transpose
+        for (int i = 0; i < m; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = tmp;
+            }
+        }
+
+        // reverse each row
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m / 2; j++) {
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[i][n - j - 1];
+                matrix[i][n - j - 1] = tmp;
+            }
+        }
+    }
+
+
+    /**
+     * LeetCode #74
+     * 每行中的整数从左到右按非严格递增顺序排列，每行的第一个整数大于前一行的最后一个整数，判断给定的目标值是否在矩阵中
+     * @param matrix 二维数组
+     * @param target 目标值
+     * @return 如果在矩阵中则返回true，否则返回false
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int m = matrix.length, n = matrix[0].length;
+        int low = 0, high = m * n - 1;
+        while (low <= high) {
+            int mid = (low + high) >>> 1;
+            int x = mid / n, y = mid % n;
+            if (matrix[x][y] == target) {
+                return true;
+            } else if (matrix[x][y] < target) {
+                low++;
+            } else {
+                high--;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * LeetCode #240
+     * 二维数组中查找目标值，每行的元素从左到右升序排列，每列的元素从上到下升序排列
+     * @param matrix 二维数组
+     * @param target 目标值
+     * @return 如果在数组中则返回true，否则返回false
+     */
+    public boolean searchMatrixII(int[][] matrix, int target) {
+        int m = matrix.length, n = matrix[0].length;
+        int x = 0, y = n - 1;
+        while (x < m && y >= 0) {
+            if (matrix[x][y] == target) {
+                return true;
+            } else if (matrix[x][y] < target) {
+                x++;
+            } else {
+                y--;
+            }
+        }
+        return false;
     }
 }
 

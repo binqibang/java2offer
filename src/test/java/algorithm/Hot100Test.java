@@ -147,7 +147,7 @@ public class Hot100Test {
     }
 
     @Test
-    void pathSum_TargetSumExists_ReturnsCorrectCount() {
+    void testPathSum_TargetSumExists_ReturnsCorrectCount() {
         TreeNode node = new TreeNode(10);
         node.left = new TreeNode(5);
         node.right = new TreeNode(-3);
@@ -162,7 +162,7 @@ public class Hot100Test {
     }
 
     @Test
-    void pathSum_TargetSumDoesNotExist_ReturnsZero() {
+    void testPathSum_TargetSumDoesNotExist_ReturnsZero() {
         TreeNode node = new TreeNode(10);
         node.left = new TreeNode(5);
         node.right = new TreeNode(-3);
@@ -174,6 +174,78 @@ public class Hot100Test {
         node.left.right.right = new TreeNode(1);
 
         assertEquals(0, hot100.pathSum(node, 0));
+    }
+
+    @Test
+    public void testRotate_3x3Matrix_RotatesCorrectly() {
+        int[][] matrix = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}
+        };
+        int[][] expected = {
+                {7, 4, 1},
+                {8, 5, 2},
+                {9, 6, 3}
+        };
+        hot100.rotate(matrix);
+        assertArrayEquals(expected, matrix);
+    }
+
+
+    @Test
+    public void testSearchMatrix_TargetInMatrix_ReturnsTrue() {
+        int[][] matrix = {
+                {1, 3, 5, 7},
+                {10, 11, 16, 20},
+                {23, 30, 34, 60}
+        };
+        assertTrue(hot100.searchMatrix(matrix, 3));
+    }
+
+    @Test
+    public void testSearchMatrix_TargetNotInMatrix_ReturnsFalse() {
+        int[][] matrix = {
+                {1, 3, 5, 7},
+                {10, 11, 16, 20},
+                {23, 30, 34, 60}
+        };
+        assertFalse(hot100.searchMatrix(matrix, 13));
+    }
+
+    @Test
+    public void testTrie() {
+        Trie trie = new Trie();
+        trie.insert("apple");
+        assertTrue(trie.search("apple"));
+        assertFalse(trie.search("app"));
+        assertTrue(trie.startsWith("app"));
+    }
+
+    @Test
+    public void searchMatrixII_TargetInMatrix_ReturnsTrue() {
+        int[][] matrix = {
+                {1, 4, 7, 11, 15},
+                {2, 5, 8, 12, 19},
+                {3, 6, 9, 16, 22},
+                {10, 13, 14, 17, 24},
+                {18, 21, 23, 26, 30}
+        };
+        int target = 5;
+        assertTrue(hot100.searchMatrixII(matrix, target));
+    }
+
+    @Test
+    public void searchMatrixII_TargetNotInMatrix_ReturnsFalse() {
+        int[][] matrix = {
+                {1, 4, 7, 11, 15},
+                {2, 5, 8, 12, 19},
+                {3, 6, 9, 16, 22},
+                {10, 13, 14, 17, 24},
+                {18, 21, 23, 26, 30}
+        };
+        int target = 20;
+        assertFalse(hot100.searchMatrixII(matrix, target));
     }
 
 }

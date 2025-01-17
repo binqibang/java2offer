@@ -1,8 +1,11 @@
 package concurrency.pool;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Slf4j
 public class SingleThreadExecutorTest {
     public static void main(String[] args) {
         // 创建单个线程数的线程池，它可以保证先进先出的执行顺序
@@ -15,7 +18,7 @@ public class SingleThreadExecutorTest {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    log.info(e.getMessage());
                 }
             });
         }
