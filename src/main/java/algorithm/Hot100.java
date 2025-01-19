@@ -227,6 +227,7 @@ public class Hot100 {
 
     private int kthSmallest;
     private int cnt = 1;
+
     private void dfs1(TreeNode root, int k) {
         if (root == null) {
             return;
@@ -303,6 +304,7 @@ public class Hot100 {
     /**
      * LeetCode #74
      * 每行中的整数从左到右按非严格递增顺序排列，每行的第一个整数大于前一行的最后一个整数，判断给定的目标值是否在矩阵中
+     *
      * @param matrix 二维数组
      * @param target 目标值
      * @return 如果在矩阵中则返回true，否则返回false
@@ -328,6 +330,7 @@ public class Hot100 {
     /**
      * LeetCode #240
      * 二维数组中查找目标值，每行的元素从左到右升序排列，每列的元素从上到下升序排列
+     *
      * @param matrix 二维数组
      * @param target 目标值
      * @return 如果在数组中则返回true，否则返回false
@@ -345,6 +348,90 @@ public class Hot100 {
             }
         }
         return false;
+    }
+
+
+    /**
+     * LeetCode #34
+     * 在排序数组中查找元素的第一个和最后一个位置
+     *
+     * @param nums   整数数组，升序排列
+     * @param target 目标值
+     * @return 目标值在数组中的起始位置和结束位置，如果数组中不存在目标值则返回[-1, -1]
+     */
+    public int[] searchRange(int[] nums, int target) {
+        int left = search(nums, target, true);
+        int right = search(nums, target, false);
+        return new int[]{left, right};
+    }
+
+    private int search(int[] nums, int target, boolean isLeftBound) {
+        int pos = -1;
+        int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) >>> 1;
+            if (nums[mid] == target) {
+                pos = mid;
+                if (isLeftBound) {
+                    right--;
+                } else {
+                    left++;
+                }
+            } else if (nums[mid] < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return pos;
+    }
+
+
+    /**
+     * LeetCode #136
+     * 只出现一次的数字，数组中除了一个数字只出现一次，其他数字都出现两次，找出只出现一次的数字
+     *
+     * @param nums 整数数组
+     * @return 只出现一次的数字
+     */
+    public int singleNumber(int[] nums) {
+        int ans = 0;
+        for (int num : nums) {
+            ans ^= num;
+        }
+        return ans;
+    }
+
+
+    /**
+     * LeetCode #20
+     * 判断字符串中的括号是否合法
+     *
+     * @param s 字符串，由'('，')'，'{'，'}'，'['，']'组成
+     * @return 如果字符串中的括号合法则返回true，否则返回false
+     */
+    public boolean isValid(String s) {
+        // (())[]
+        if (s == null || s.isEmpty()) {
+            return true;
+        }
+        Map<Character, Character> pairs = Map.of(
+                '(', ')',
+                '{', '}',
+                '[', ']'
+        );
+        Deque<Character> stack = new LinkedList<>();
+        for (char ch : s.toCharArray()) {
+            if (pairs.containsKey(ch)) {
+                stack.push(ch);
+            } else {
+                if (stack.isEmpty() || pairs.get(stack.peek()) != ch) {
+                    return false;
+                }
+                stack.pop();
+            }
+        }
+        return stack.isEmpty();
     }
 }
 

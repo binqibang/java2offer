@@ -11,7 +11,7 @@ public class DeadLockTest {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
                 System.out.println(Thread.currentThread() + " waiting get resource2");
                 synchronized (resource2) {
@@ -43,7 +43,7 @@ public class DeadLockTest {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
                 System.out.println(Thread.currentThread() + " waiting get resource2");
                 synchronized (resource2) {

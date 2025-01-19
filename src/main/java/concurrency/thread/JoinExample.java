@@ -21,7 +21,7 @@ public class JoinExample {
             try {
                 a.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             }
             System.out.println("Thread B");
         }

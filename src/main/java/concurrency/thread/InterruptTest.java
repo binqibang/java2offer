@@ -13,7 +13,7 @@ public class InterruptTest {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 log.info("--- wake ---");
-                e.printStackTrace();
+                log.warn(e.getMessage());
             }
         };
         Thread t = new Thread(task);

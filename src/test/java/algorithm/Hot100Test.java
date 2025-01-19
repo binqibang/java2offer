@@ -1,6 +1,7 @@
 package algorithm;
 
 import java.util.*;
+
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -214,7 +215,7 @@ public class Hot100Test {
     }
 
     @Test
-    public void testTrie() {
+    public void testTrie_InsertAndSearch_ReturnsCorrectResults() {
         Trie trie = new Trie();
         trie.insert("apple");
         assertTrue(trie.search("apple"));
@@ -248,4 +249,61 @@ public class Hot100Test {
         assertFalse(hot100.searchMatrixII(matrix, target));
     }
 
+    @Test
+    public void testSearchRange_TargetNotInArray_ReturnsNegativeOne() {
+        int[] nums = {1, 2, 3, 4, 5};
+        int target = 6;
+        int[] expected = {-1, -1};
+        assertArrayEquals(expected, hot100.searchRange(nums, target));
+    }
+
+    @Test
+    public void testSearchRange_TargetSingleInstance_ReturnsSameStartEnd() {
+        int[] nums = {1, 2, 3, 4, 5};
+        int target = 3;
+        int[] expected = {2, 2};
+        assertArrayEquals(expected, hot100.searchRange(nums, target));
+    }
+
+    @Test
+    public void testSearchRange_TargetMultipleInstances_ReturnsCorrectRange() {
+        int[] nums = {1, 2, 2, 2, 3, 4, 5};
+        int target = 2;
+        int[] expected = {1, 3};
+        assertArrayEquals(expected, hot100.searchRange(nums, target));
+    }
+
+    @Test
+    public void testSingleNumber_SingleElement_ReturnsElement() {
+        int[] nums = {1};
+        assertEquals(1, hot100.singleNumber(nums));
+    }
+
+    @Test
+    public void testSingleNumber_DifferentOrder_ReturnsSingleNumber() {
+        int[] nums = {4, 1, 2, 1, 2};
+        assertEquals(4, hot100.singleNumber(nums));
+    }
+
+    @Test
+    public void testSingleNumber_AllSameExceptOne_ReturnsSingleNumber() {
+        int[] nums = {1, 1, 1, 1, 1, 1};
+        assertEquals(0, hot100.singleNumber(nums));
+    }
+
+    @Test
+    public void testIsValid_EmptyString_ReturnsTrue() {
+        assertTrue(hot100.isValid(""));
+        assertTrue(hot100.isValid(null));
+    }
+
+    @Test
+    public void testIsValid_MixedBrackets_ReturnsTrue() {
+        assertTrue(hot100.isValid("{[()]}"));
+    }
+
+    @Test
+    public void testIsValid_MixedBrackets_ReturnsFalse() {
+        assertFalse(hot100.isValid("{[(])}"));
+    }
 }

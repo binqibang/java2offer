@@ -23,7 +23,7 @@ public class RunnableTest {
                         Thread.sleep((int) (DELAY * Math.random()));
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
             }
         };
@@ -36,7 +36,7 @@ public class RunnableTest {
                     Thread.sleep((int) (DELAY * Math.random()));
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             }
         };
         // 使用`Runnable`实例再创建一个`Thread`实例，然后调用`Thread`
