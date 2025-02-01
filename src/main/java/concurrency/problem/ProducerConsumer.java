@@ -19,7 +19,7 @@ public class ProducerConsumer {
                         try {
                             resource.wait();
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            System.err.println(e.getMessage());
                         }
                     }
                     resource.offer(1);
@@ -28,7 +28,7 @@ public class ProducerConsumer {
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        System.err.println(e.getMessage());
                     }
                 }
             }
@@ -37,14 +37,14 @@ public class ProducerConsumer {
         Thread consumer = new Thread(() -> {
             while (true) {
                 synchronized (resource) {
-                    while (resource.size() == 0) {
+                    while (resource.isEmpty()) {
                         System.out.println("当前队列为空");
                         // 唤醒生产者进程
                         resource.notify();
                         try {
                             resource.wait();
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            System.err.println(e.getMessage());
                         }
                     }
                     resource.poll();
@@ -53,7 +53,7 @@ public class ProducerConsumer {
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        System.err.println(e.getMessage());
                     }
                 }
             }

@@ -23,7 +23,7 @@ public class PrintNumLetter {
                 Thread.sleep(500);
                 condition.signal();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             } finally {
                 lock.unlock();
             }
@@ -43,7 +43,7 @@ public class PrintNumLetter {
                 Thread.sleep(500);
                 condition.signal();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             } finally {
                 lock.unlock();
             }

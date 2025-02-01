@@ -1,9 +1,12 @@
 package concurrency.problem;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+@Slf4j
 public class PrintABC {
     private static final Lock LOCK = new ReentrantLock();
     private static int idx;
@@ -23,7 +26,7 @@ public class PrintABC {
                 Thread.sleep(500);
                 next.signal();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.warn(e.getMessage());
             } finally {
                 LOCK.unlock();
             }

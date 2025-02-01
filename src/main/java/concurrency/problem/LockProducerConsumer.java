@@ -26,7 +26,7 @@ public class LockProducerConsumer {
                     System.out.println("生产者生产一条任务，当前队列长度为" + resource.size());
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 } finally {
                     lock.unlock();
                 }
@@ -37,7 +37,7 @@ public class LockProducerConsumer {
             while (true) {
                 lock.lock();
                 try {
-                    while (resource.size() == 0) {
+                    while (resource.isEmpty()) {
                         System.out.println("当前队列为空");
                         condition.await();
                     }
@@ -46,7 +46,7 @@ public class LockProducerConsumer {
                     System.out.println("消费者消费一条任务，当前队列长度为" + resource.size());
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 } finally {
                     lock.unlock();
                 }

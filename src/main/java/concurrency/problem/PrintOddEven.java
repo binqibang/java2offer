@@ -16,7 +16,7 @@ public class PrintOddEven {
                             LOCK.wait();
                         }
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        System.err.println(e.getMessage());
                     }
                 }
             }

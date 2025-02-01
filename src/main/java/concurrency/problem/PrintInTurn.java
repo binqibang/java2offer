@@ -25,7 +25,7 @@ public class PrintInTurn {
                     CONDITION.await();
                 }
             } catch(InterruptedException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             } finally {
                 LOCK.unlock();
             }
