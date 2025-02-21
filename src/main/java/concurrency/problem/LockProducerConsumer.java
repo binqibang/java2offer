@@ -8,9 +8,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class LockProducerConsumer {
     private static final int CAPACITY = 5;
-    private static final Queue<Integer> resource = new LinkedList<>();
-    private static final Lock lock = new ReentrantLock();
-    private static final Condition condition = lock.newCondition();
+    private static Queue<Integer> resource = new LinkedList<>();
+    private static Lock lock = new ReentrantLock();
+    private static Condition condition = lock.newCondition();
 
     public static void main(String[] args) throws InterruptedException {
         Thread producer = new Thread(() -> {

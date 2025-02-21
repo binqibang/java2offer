@@ -42,9 +42,9 @@ public class ThreadPoolTest {
             int taskId = i + 1;
             threadPool.execute(() -> {
                 try {
-                    log.info("running task-{} started", taskId);
+                    log.info("task-{} started", taskId);
                     Thread.sleep((long) (Math.random() * 5000));
-                    log.info("running task-{} finished", taskId);
+                    log.info("task-{} finished", taskId);
                 } catch (InterruptedException e) {
                     log.warn(e.getMessage());
                 }

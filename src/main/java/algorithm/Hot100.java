@@ -433,5 +433,91 @@ public class Hot100 {
         }
         return stack.isEmpty();
     }
+
+
+    /**
+     * LeetCode #146
+     * LRU缓存
+     */
+    public static class LRUCache {
+        /**
+         * 双向链表结点
+         */
+        private static class DoubleLinkedNode {
+            int key, value;
+            DoubleLinkedNode prev, next;
+
+            public DoubleLinkedNode(int key, int value) {
+                this.key = key;
+                this.value = value;
+            }
+
+            public DoubleLinkedNode() {
+            }
+        }
+
+
+        private int size, capacity;
+        private Map<Integer, DoubleLinkedNode> cache;
+        private DoubleLinkedNode head, tail;
+
+        public LRUCache(int capacity) {
+            this.capacity = capacity;
+            size = 0;
+            cache = new HashMap<>();
+            head = new DoubleLinkedNode();
+            tail = new DoubleLinkedNode();
+            head.next = tail;
+            tail.prev = head;
+        }
+
+        public int get(int key) {
+            var node = cache.get(key);
+            if (node == null) {
+                return -1;
+            }
+            moveFirst(node);
+            return node.value;
+        }
+
+        private void moveFirst(DoubleLinkedNode node) {
+            remove(node);
+            addFirst(node);
+        }
+
+        private void addFirst(DoubleLinkedNode node) {
+            node.prev = head;
+            head.next.prev = node;
+            node.next = head.next;
+            head.next = node;
+        }
+
+        private void remove(DoubleLinkedNode node) {
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+        }
+
+
+        public void put(int key, int value) {
+            var node = cache.get(key);
+            // if not exists, create new node in the first, add size
+            if (node == null) {
+                var newNode = new DoubleLinkedNode(key, value);
+                addFirst(newNode);
+                cache.put(key, newNode);
+                size++;
+                // if over capacity, remove last node
+                if (size > capacity) {
+                    cache.remove(tail.prev.key);
+                    remove(tail.prev);
+                    size--;
+                }
+            } else {
+                // if ready exists, update value and move to first
+                node.value = value;
+                moveFirst(node);
+            }
+        }
+    }
 }
 

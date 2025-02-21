@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 public class ThreadLocalExample implements Runnable{
 
     // SimpleDateFormat 不是线程安全的，所以每个线程都要有自己独立的副本
-    private static final ThreadLocal<SimpleDateFormat> formatter = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HHmm"));
+    private static ThreadLocal<SimpleDateFormat> formatter = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HHmm"));
 
     public static void main(String[] args) throws InterruptedException {
         ThreadLocalExample obj = new ThreadLocalExample();
@@ -22,7 +22,7 @@ public class ThreadLocalExample implements Runnable{
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
         // formatter pattern is changed here by thread, but it won't reflect to other threads
         formatter.set(new SimpleDateFormat());

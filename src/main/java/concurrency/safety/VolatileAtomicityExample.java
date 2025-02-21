@@ -4,10 +4,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class VolatileAtomicityExample {
-    public static volatile int inc = 0;
+    public static volatile int NUM = 0;
 
     public void increase() {
-        inc++;
+        NUM++;
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -21,7 +21,7 @@ public class VolatileAtomicityExample {
             });
         }
         Thread.sleep(1500);
-        System.out.println(inc);
+        System.out.println(NUM);
         threadPool.shutdown();
     }
 }

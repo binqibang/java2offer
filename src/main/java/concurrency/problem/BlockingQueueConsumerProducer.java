@@ -8,7 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 @Slf4j
 public class BlockingQueueConsumerProducer {
-    private static final BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(10);
+    private static BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(10);
 
     public static void main(String[] args) throws InterruptedException {
         Thread a = new Thread(() -> {

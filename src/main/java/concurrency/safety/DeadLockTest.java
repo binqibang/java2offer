@@ -1,12 +1,14 @@
 package concurrency.safety;
 
 public class DeadLockTest {
-    private static final Object resource1 = new Object(); //资源 1
-    private static final Object resource2 = new Object(); //资源 2
+    // 资源 1
+    private static final Object RESOURCE_1 = new Object();
+    // 资源 2
+    private static final Object RESOURCE_2 = new Object();
 
     public static void main(String[] args) {
         new Thread(() -> {
-            synchronized (resource1) {
+            synchronized (RESOURCE_1) {
                 System.out.println(Thread.currentThread() + " got resource1");
                 try {
                     Thread.sleep(1000);
@@ -14,7 +16,7 @@ public class DeadLockTest {
                     System.err.println(e.getMessage());
                 }
                 System.out.println(Thread.currentThread() + " waiting get resource2");
-                synchronized (resource2) {
+                synchronized (RESOURCE_2) {
                     System.out.println(Thread.currentThread() + " got resource2");
                 }
             }
@@ -38,7 +40,7 @@ public class DeadLockTest {
 
         // 破坏循环等待
         new Thread(() -> {
-            synchronized (resource1) {
+            synchronized (RESOURCE_1) {
                 System.out.println(Thread.currentThread() + " got resource1");
                 try {
                     Thread.sleep(1000);
@@ -46,7 +48,7 @@ public class DeadLockTest {
                     System.err.println(e.getMessage());
                 }
                 System.out.println(Thread.currentThread() + " waiting get resource2");
-                synchronized (resource2) {
+                synchronized (RESOURCE_2) {
                     System.out.println(Thread.currentThread() + " got resource2");
                 }
             }

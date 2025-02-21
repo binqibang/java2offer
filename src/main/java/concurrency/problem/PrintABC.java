@@ -10,9 +10,9 @@ import java.util.concurrent.locks.ReentrantLock;
 public class PrintABC {
     private static final Lock LOCK = new ReentrantLock();
     private static int idx;
-    private static final Condition c1 = LOCK.newCondition();
-    private static final Condition c2 = LOCK.newCondition();
-    private static final Condition c3 = LOCK.newCondition();
+    private static Condition c1 = LOCK.newCondition();
+    private static Condition c2 = LOCK.newCondition();
+    private static Condition c3 = LOCK.newCondition();
 
     private static void print(int state, Condition curr, Condition next) {
         while (true) {

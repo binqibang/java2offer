@@ -6,33 +6,40 @@ import java.util.concurrent.FutureTask;
 
 public class CallableTest {
 
-    static int STEPS = 10;
-
     static class MyCallable implements Callable<String> {
         @Override
         public String call() throws Exception {
-            for (int i = 0; i < STEPS; i++) {
-                System.out.println("call1 " + i);
-                Thread.sleep(200);
-            }
+            System.out.println(Thread.currentThread().getName() + " is started");
+            Thread.sleep((long) (10000 * Math.random()));
             return "response1";
         }
     }
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         MyCallable task1 = new MyCallable();
         Callable task2 = () -> {
-            for (int i = 0; i < STEPS; i++) {
-                System.out.println("call2 " + i);
-                Thread.sleep(100);
-            }
+            System.out.println(Thread.currentThread().getName() + " is started");
+            Thread.sleep((long) (10000 * Math.random()));
             return "response2";
         };
 
-        FutureTask<String> ft1 = new FutureTask<>(task1), ft2 = new FutureTask<>(task2);
+        FutureTask<String> ft1 = new FutureTask<>(task1);
+        FutureTask<String> ft2 = new FutureTask<>(task2){
+            @Override
+            protected void done() {
+                System.out.println(Thread.currentThread().getName() + " is done");
+            }
+        };
 
-        Thread t1 = new Thread(ft1), t2 = new Thread(ft2);
-        t1.start(); t2.start();
-        System.out.println(t1.getState() + " " + ft1.get());
-        System.out.println(t2.getState() + " " + ft2.get());
+        Thread t1 = new Thread(ft1, "Thread-1");
+        Thread t2 = new Thread(ft2, "Thread-2");
+        t1.start();
+        t2.start();
+        System.out.println(t1.getName() + "'result: " + ft1.get());
+        System.out.println(t2.getName() + "'result: " + ft2.get());
+
+        for (int i = 0; i < 100; i++) {
+            System.out.println("Main thread is busy");
+            Thread.sleep((long) (5000 * Math.random()));
+        }
     }
 }

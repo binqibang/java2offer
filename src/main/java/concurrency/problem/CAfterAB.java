@@ -7,25 +7,27 @@ public class CAfterAB {
         CountDownLatch cdl = new CountDownLatch(2);
 
         Thread t1 = new Thread(() -> {
-            System.out.println(Thread.currentThread().getName() + " start.");
             try {
+                System.out.println(Thread.currentThread().getName() + " start.");
                 Thread.sleep(500);
+                System.out.println(Thread.currentThread().getName() + " finish.");
             } catch (InterruptedException e) {
                 System.err.println(e.getMessage());
+            } finally {
+                cdl.countDown();
             }
-            System.out.println(Thread.currentThread().getName() + " finish.");
-            cdl.countDown();
         }, "Thread-A");
 
         Thread t2 = new Thread(() -> {
-            System.out.println(Thread.currentThread().getName() + " start.");
             try {
+                System.out.println(Thread.currentThread().getName() + " start.");
                 Thread.sleep(500);
+                System.out.println(Thread.currentThread().getName() + " finish.");
             } catch (InterruptedException e) {
                 System.err.println(e.getMessage());
+            } finally {
+                cdl.countDown();
             }
-            System.out.println(Thread.currentThread().getName() + " finish.");
-            cdl.countDown();
         }, "Thread-B");
 
         Thread t3 = new Thread(() -> {
