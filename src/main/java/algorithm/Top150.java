@@ -170,7 +170,7 @@ public class Top150 {
      * LeetCode #106
      * 根据前序遍历和中序遍历构建二叉树
      *
-     * @param inorder 中序遍历
+     * @param inorder   中序遍历
      * @param postorder 后序遍历
      * @return 二叉树根节点
      */
@@ -221,5 +221,114 @@ public class Top150 {
         return p.val == q.val && dfs1(p.left, q.left) && dfs1(p.right, q.right);
     }
 
+
+    /**
+     * LeetCode #918
+     * 环形子数组的最大和
+     *
+     * @param nums 环形数组，nums[i]的下一个元素是nums[(i+1) % n]，前一个元素是nums[(i-1+n) % n]
+     * @return 环形子数组的最大和
+     */
+    public int maxSubarraySumCircular(int[] nums) {
+        int n = nums.length;
+        int ans = nums[0];
+        // 1. nums[i:j] 最大子数组和
+        int[] dp = new int[n];
+        dp[0] = nums[0];
+        for (int i = 1; i < n; i++) {
+            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
+            ans = Math.max(ans, dp[i]);
+        }
+        // 2. nums[0:i] + nums[j:n] 最大值
+        // leftMax[i]: max(nums[0:1], nums[0:2], ..., nums[0:i])
+        int[] leftMax = new int[n];
+        leftMax[0] = nums[0];
+        int leftSum = nums[0];
+        for (int i = 1; i < n; i++) {
+            leftSum += nums[i];
+            leftMax[i] = Math.max(leftSum, leftMax[i - 1]);
+        }
+        int rightSum = 0;
+        for (int i = n - 1; i >= 1; i--) {
+            rightSum += nums[i];
+            ans = Math.max(ans, rightSum + leftMax[i - 1]);
+        }
+        return ans;
+    }
+
+
+    /**
+     * LeetCode #289
+     * 生命游戏
+     *
+     * @param board 二维数组，表示游戏板
+     */
+    public void gameOfLife(int[][] board) {
+        int m = board.length, n = board[0].length;
+        int[][] back = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            System.arraycopy(board[i], 0, back[i],0, n);
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                board[i][j] = update(back, i, j);
+            }
+        }
+    }
+
+    private int update(int[][] board, int x, int y) {
+        int liveCnt = 0;
+        int m = board.length, n = board[0].length;
+        int top = Math.max(0, x - 1), bottom = Math.min(m - 1, x + 1);
+        int left = Math.max(0, y - 1), right = Math.min(n - 1, y + 1);
+        for (int i = top; i <= bottom; i++) {
+            for (int j = left;  j <= right; j++) {
+                if ((i != x || j != y) && board[i][j] == 1) {
+                    liveCnt++;
+                }
+            }
+        }
+        if (board[x][y] == 1) {
+            if (liveCnt < 2) {
+                return 0;
+            } else if (liveCnt == 2 || liveCnt == 3) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            if (liveCnt == 3) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+
+    /**
+     * LeetCode #134 加油站
+     *
+     * @param gas 加油站容量
+     * @param cost 耗油量
+     * @return 如果可以按顺序绕环路行驶一周，返回出发时加油站的编号
+     */
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = gas.length;
+        int diffSum = 0;
+        int minSum = Integer.MAX_VALUE, minIdx = -1;
+        for (int i = 0; i < n; i++) {
+            diffSum += gas[i] - cost[i];
+            if (diffSum < minSum) {
+                minSum = diffSum;
+                minIdx = i;
+            }
+        }
+        if (diffSum >= 0) {
+            return (minIdx + 1) % n;
+        } else {
+            return -1;
+        }
+    }
 
 }

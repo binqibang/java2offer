@@ -122,4 +122,24 @@ class Top150Test {
 
         assertTrue(top150.isSameTree(p, q));
     }
+
+    @Test
+    public void maxSubarraySumCircular() {
+        int[] nums = {5, -3, 5};
+        assertEquals(10, top150.maxSubarraySumCircular(nums));
+    }
+
+    @Test
+    void gameOfLife() {
+        int[][] board = {{0, 1, 0}, {0, 0, 1}, {1, 1, 1}, {0, 0, 0}};
+        top150.gameOfLife(board);
+        assertArrayEquals(new int[][]{{0, 0, 0}, {1, 0, 1}, {0, 1, 1}, {0, 1, 0}}, board);
+    }
+
+    @Test
+    void canCompleteCircuit() {
+        int[] gas = {5, 1, 2, 3, 4};
+        int[] cost = {4, 4, 1, 5, 1};
+        assertEquals(4, top150.canCompleteCircuit(gas, cost));
+    }
 }
